@@ -2,7 +2,7 @@ import os
 
 from PerformCommands import *
 
-from discord import File, Embed
+from discord import File, Embed, Intents
 from discord.ext import commands
 
 from dotenv import load_dotenv
@@ -10,15 +10,14 @@ from dotenv import load_dotenv
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
 
-bot = commands.Bot(command_prefix="!")
+bot = commands.Bot(command_prefix="!", intents=Intents.all())
 
 @bot.command(name="build")
 async def ChampionBuild(ctx, Champion):
 	Argument = "build"
-	DiscordInput(Argument, Champion)
-	await ctx.send("Retrieved this Build for {}:".format(Champion))
-	await ctx.send(file=File("./BuildItems/FullBuild.png"))
-	DeleteImages()
+	champBuild = DiscordInput(Argument, Champion)
+	await ctx.send("Retrieved this build for {}:".format(Champion))
+	await ctx.send(file=File(champBuild, "ChampionBuild.png"))
 
 @bot.command(name="clear")
 async def ClearMessages(ctx, AmountMessages = 4):
